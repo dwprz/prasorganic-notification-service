@@ -1,0 +1,44 @@
+services:
+  prasorganic-notification-zookeeper:
+    image: bitnami/zookeeper:3.9.2
+    container_name: prasorganic-notification-zookeeper
+    ports:
+      - 2181:2181
+    volumes:
+      - type: volume
+        source: prasorganic-notification-zookeeper-data
+        target: /bitnami/zookeeper
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - prasorganic-notification-service-network
+
+  prasorganic-notification-kafka:
+    image: bitnami/kafka:3.3.2
+    container_name: prasorganic-notification-kafka
+    ports:
+      - 9092:9092
+    volumes:
+      - type: volume
+        source: prasorganic-notification-kafka-data
+        target: /bitnami/kafka
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+    depends_on:
+      - prasorganic-notification-zookeeper
+    networks:
+      - prasorganic-notification-service-network
+
+volumes:
+  prasorganic-notification-kafka-data:
+    name: prasorganic-notification-kafka-data
+  prasorganic-notification-zookeeper-data:
+    name: prasorganic-notification-zookeeper-data
+
+networks:
+  prasorganic-notification-service-network:
+    name: prasorganic-notification-service-network
+    driver: bridge
+  prasorganic-network:
+    name: prasorganic-network
+    external: true
