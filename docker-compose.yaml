@@ -13,25 +13,73 @@ services:
     networks:
       - prasorganic-notification-service-network
 
-  prasorganic-notification-kafka:
+  prasorganic-notification-kafka-1:
     image: bitnami/kafka:3.3.2
-    container_name: prasorganic-notification-kafka
+    container_name: prasorganic-notification-kafka-1
     ports:
       - 9092:9092
+      - 9093:9093
     volumes:
       - type: volume
-        source: prasorganic-notification-kafka-data
+        source: prasorganic-notification-kafka-data-1
         target: /bitnami/kafka
     environment:
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=prasorganic-notification-zookeeper:2181
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,EXTERNAL://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://prasorganic-notification-kafka-1:9092,EXTERNAL://localhost:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+    depends_on:
+      - prasorganic-notification-zookeeper
+    networks:
+      - prasorganic-notification-service-network
+
+  prasorganic-notification-kafka-2:
+    image: bitnami/kafka:3.3.2
+    container_name: prasorganic-notification-kafka-2
+    ports:
+      - 9094:9094
+      - 9095:9095
+    volumes:
+      - type: volume
+        source: prasorganic-notification-kafka-data-2
+        target: /bitnami/kafka
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=prasorganic-notification-zookeeper:2181
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9094,EXTERNAL://:9095
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://prasorganic-notification-kafka-2:9094,EXTERNAL://localhost:9095
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+    depends_on:
+      - prasorganic-notification-zookeeper
+    networks:
+      - prasorganic-notification-service-network
+      
+  prasorganic-notification-kafka-3:
+    image: bitnami/kafka:3.3.2
+    container_name: prasorganic-notification-kafka-3
+    ports:
+      - 9096:9096
+      - 9097:9097
+    volumes:
+      - type: volume
+        source: prasorganic-notification-kafka-data-3
+        target: /bitnami/kafka
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=prasorganic-notification-zookeeper:2181
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9096,EXTERNAL://:9097
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://prasorganic-notification-kafka-3:9096,EXTERNAL://localhost:9097
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
     depends_on:
       - prasorganic-notification-zookeeper
     networks:
       - prasorganic-notification-service-network
 
 volumes:
-  prasorganic-notification-kafka-data:
-    name: prasorganic-notification-kafka-data
+  prasorganic-notification-kafka-data-1:
+    name: prasorganic-notification-kafka-data-1
+  prasorganic-notification-kafka-data-2:
+    name: prasorganic-notification-kafka-data-2
+  prasorganic-notification-kafka-data-3:
+    name: prasorganic-notification-kafka-data-3
   prasorganic-notification-zookeeper-data:
     name: prasorganic-notification-zookeeper-data
 
@@ -42,3 +90,5 @@ networks:
   prasorganic-network:
     name: prasorganic-network
     external: true
+
+  
