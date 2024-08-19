@@ -28,3 +28,14 @@ func (n *Notification) Midtrans(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(fiber.Map{"data": "success"})
 }
+
+func (n *Notification) Shipper(c *fiber.Ctx) error {
+	req := new(entity.Shipper)
+	if err := c.BodyParser(req); err != nil {
+		return err
+	}
+
+	n.notifService.Shipper(c.Context(), req)
+
+	return c.Status(200).JSON(fiber.Map{"data": "success"})
+}

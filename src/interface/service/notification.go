@@ -8,4 +8,5 @@ import (
 
 type Notification interface {
 	Midtrans(ctx context.Context, data *entity.Transaction)
+	Shipper(ctx context.Context, data *entity.Shipper)
 }

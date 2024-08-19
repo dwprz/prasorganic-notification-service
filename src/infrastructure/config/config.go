@@ -20,10 +20,16 @@ type midtrans struct {
 	ServerKey string
 }
 
+type shipper struct {
+	BaseUrl string
+	ApiKey  string
+}
+
 type Config struct {
 	CurrentApp *currentApp
 	Kafka      *kafka
 	Midtrans   *midtrans
+	Shipper    *shipper
 }
 
 var Conf *Config

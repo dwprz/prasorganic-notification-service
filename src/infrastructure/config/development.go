@@ -36,9 +36,14 @@ func setUpForDevelopment() *Config {
 	midtransConf.BaseUrl = viper.GetString("MIDTRANS_BASE_URL")
 	midtransConf.ServerKey = viper.GetString("MIDTRANS_SERVER_KEY")
 
+	shipperConf := new(shipper)
+	shipperConf.BaseUrl = viper.GetString("SHIPPER_BASE_URL")
+	shipperConf.ApiKey = viper.GetString("SHIPPER_API_KEY")
+
 	return &Config{
 		CurrentApp: currentAppConf,
 		Kafka:      kafkaConf,
 		Midtrans:   midtransConf,
+		Shipper:    shipperConf,
 	}
 }

@@ -1,13 +1,14 @@
 package broker
 
 import (
-	"github.com/dwprz/prasorganic-notification-service/src/core/broker/producer"
 	"github.com/dwprz/prasorganic-notification-service/src/core/broker/delivery"
+	"github.com/dwprz/prasorganic-notification-service/src/core/broker/producer"
 )
 
 func InitKafkaProducer() *producer.Kafka {
 	midtransDelivery := delivery.NewMidtransBroker()
-	kafkaProducer := producer.NewKafka(midtransDelivery)
+	shipperDelivery := delivery.NewShipperBroker()
 
+	kafkaProducer := producer.NewKafka(midtransDelivery, shipperDelivery)
 	return kafkaProducer
 }

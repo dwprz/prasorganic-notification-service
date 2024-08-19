@@ -6,3 +6,8 @@ type MidtransBroker interface {
 	Publish(data *entity.Transaction)
 	Close()
 }
+
+type ShipperBroker interface {
+	Publish(data *entity.Shipper)
+	Close()
+}

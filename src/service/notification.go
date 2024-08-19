@@ -29,3 +29,12 @@ func (n *NotificationImpl) Midtrans(ctx context.Context, data *entity.Transactio
 
 	n.kafkaClient.Midtrans.Publish(data)
 }
+
+func (n *NotificationImpl) Shipper(ctx context.Context, data *entity.Shipper) {
+	if err := v.Validate.Struct(data); err != nil {
+		log.Logger.WithFields(logrus.Fields{"location": "service.NotificationImpl/Shipper", "section": "Validate.Struct"}).Error(err)
+		return
+	}
+
+	n.kafkaClient.Shipper.Publish(data)
+}
