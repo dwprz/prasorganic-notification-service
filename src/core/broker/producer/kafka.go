@@ -1,16 +1,19 @@
 package producer
 
-import "github.com/dwprz/prasorganic-notification-service/src/interface/delivery"
+import (
+	"github.com/dwprz/prasorganic-notification-service/src/interface/delivery"
+	"github.com/dwprz/prasorganic-notification-service/src/model/entity"
+)
 
 type Kafka struct {
-	Midtrans delivery.MidtransBroker
-	Shipper  delivery.ShipperBroker
+	Midtrans delivery.Broker[*entity.Transaction]
+	Shipper  delivery.Broker[*entity.Shipper]
 }
 
-func NewKafka(md delivery.MidtransBroker, sd delivery.ShipperBroker) *Kafka {
+func NewKafka(midtrans delivery.Broker[*entity.Transaction], shipper delivery.Broker[*entity.Shipper]) *Kafka {
 	return &Kafka{
-		Midtrans: md,
-		Shipper:  sd,
+		Midtrans: midtrans,
+		Shipper:  shipper,
 	}
 }
 

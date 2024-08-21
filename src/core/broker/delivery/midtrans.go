@@ -18,7 +18,7 @@ type MidtransBrokerImpl struct {
 	writer *kafka.Writer
 }
 
-func NewMidtransBroker() delivery.MidtransBroker {
+func NewMidtransBroker() delivery.Broker[*entity.Transaction] {
 	w := &kafka.Writer{
 		Addr:                   kafka.TCP(config.Conf.Kafka.Addr1, config.Conf.Kafka.Addr2, config.Conf.Kafka.Addr3),
 		Topic:                  "midtrans",

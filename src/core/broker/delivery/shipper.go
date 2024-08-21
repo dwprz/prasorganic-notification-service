@@ -18,7 +18,7 @@ type ShipperBrokerImpl struct {
 	writer *kafka.Writer
 }
 
-func NewShipperBroker() delivery.ShipperBroker {
+func NewShipperBroker() delivery.Broker[*entity.Shipper] {
 	w := &kafka.Writer{
 		Addr:                   kafka.TCP(config.Conf.Kafka.Addr1, config.Conf.Kafka.Addr2, config.Conf.Kafka.Addr3),
 		Topic:                  "shipper",

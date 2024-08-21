@@ -16,11 +16,11 @@ import (
 // this main restful server
 type Restful struct {
 	app          *fiber.App
-	notifHandler *handler.Notification
+	notifHandler *handler.NotificationRESTful
 	middleware   *middleware.Middleware
 }
 
-func NewRestful(nh *handler.Notification, m *middleware.Middleware) *Restful {
+func NewRestful(nh *handler.NotificationRESTful, m *middleware.Middleware) *Restful {
 	app := fiber.New(fiber.Config{
 		CaseSensitive: true,
 		StrictRouting: true,

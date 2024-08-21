@@ -8,17 +8,17 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type Notification struct {
+type NotificationRESTful struct {
 	notifService service.Notification
 }
 
-func NewNotification(ns service.Notification) *Notification {
-	return &Notification{
+func NewNotificationRESTful(ns service.Notification) *NotificationRESTful {
+	return &NotificationRESTful{
 		notifService: ns,
 	}
 }
 
-func (n *Notification) Midtrans(c *fiber.Ctx) error {
+func (n *NotificationRESTful) Midtrans(c *fiber.Ctx) error {
 	tx, ok := c.Locals("midtrans").(*entity.Transaction)
 	if !ok {
 		return fmt.Errorf("unexpected type %T", tx)
@@ -29,7 +29,7 @@ func (n *Notification) Midtrans(c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{"data": "success"})
 }
 
-func (n *Notification) Shipper(c *fiber.Ctx) error {
+func (n *NotificationRESTful) Shipper(c *fiber.Ctx) error {
 	req := new(entity.Shipper)
 	if err := c.BodyParser(req); err != nil {
 		return err

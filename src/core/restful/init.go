@@ -8,7 +8,7 @@ import (
 )
 
 func InitServer(ns service.Notification) *server.Restful {
-	notifHandler := handler.NewNotification(ns)
+	notifHandler := handler.NewNotificationRESTful(ns)
 	middleware := middleware.New()
 
 	restfulServer := server.NewRestful(notifHandler, middleware)
