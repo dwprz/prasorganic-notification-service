@@ -21,7 +21,7 @@ func NewNotificationRESTful(ns service.Notification) *NotificationRESTful {
 func (n *NotificationRESTful) Midtrans(c *fiber.Ctx) error {
 	tx, ok := c.Locals("midtrans").(*entity.Transaction)
 	if !ok {
-		return fmt.Errorf("unexpected type %T", tx)
+		return fmt.Errorf("unexpected type %T (*entity.Transaction)", tx)
 	}
 
 	n.notifService.Midtrans(c.Context(), tx)
@@ -30,12 +30,12 @@ func (n *NotificationRESTful) Midtrans(c *fiber.Ctx) error {
 }
 
 func (n *NotificationRESTful) Shipper(c *fiber.Ctx) error {
-	req := new(entity.Shipper)
-	if err := c.BodyParser(req); err != nil {
-		return err
+	shipper, ok := c.Locals("shipper").(*entity.Shipper)
+	if !ok {
+		return fmt.Errorf("unexpected type %T (*entity.Shipper)", shipper)
 	}
 
-	n.notifService.Shipper(c.Context(), req)
+	n.notifService.Shipper(c.Context(), shipper)
 
 	return c.Status(200).JSON(fiber.Map{"data": "success"})
 }

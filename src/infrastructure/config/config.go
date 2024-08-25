@@ -25,11 +25,16 @@ type shipper struct {
 	ApiKey  string
 }
 
+type ngrok struct {
+	BaseUrl string
+}
+
 type Config struct {
 	CurrentApp *currentApp
 	Kafka      *kafka
 	Midtrans   *midtrans
 	Shipper    *shipper
+	Ngrok      *ngrok
 }
 
 var Conf *Config

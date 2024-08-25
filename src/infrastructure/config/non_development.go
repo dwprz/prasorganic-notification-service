@@ -43,6 +43,11 @@ func setUpForNonDevelopment(appStatus string) *Config {
 		log.Logger.WithFields(logrus.Fields{"location": "config.setUpForNonDevelopment", "section": "KVv2.Get"}).Fatal(err)
 	}
 
+	ngrokSecrets, err := client.KVv2(mountPath).Get(context.Background(), "ngrok")
+	if err != nil {
+		log.Logger.WithFields(logrus.Fields{"location": "config.setUpForNonDevelopment", "section": "KVv2.Get"}).Fatal(err)
+	}
+
 	currentAppConf := new(currentApp)
 	currentAppConf.RestfulAddress = notifServiceSecrets.Data["RESTFUL_ADDRESS"].(string)
 	currentAppConf.GrpcPort = notifServiceSecrets.Data["GRPC_PORT"].(string)
@@ -60,10 +65,14 @@ func setUpForNonDevelopment(appStatus string) *Config {
 	shipperConf.BaseUrl = shipperSecrets.Data["BASE_URL"].(string)
 	shipperConf.ApiKey = shipperSecrets.Data["API_KEY"].(string)
 
+	ngrokConf := new(ngrok)
+	ngrokConf.BaseUrl = ngrokSecrets.Data["BASE_URL"].(string)
+
 	return &Config{
 		CurrentApp: currentAppConf,
 		Kafka:      kafkaConf,
 		Midtrans:   midtransConf,
 		Shipper:    shipperConf,
+		Ngrok:      ngrokConf,
 	}
 }

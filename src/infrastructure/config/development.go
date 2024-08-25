@@ -40,10 +40,14 @@ func setUpForDevelopment() *Config {
 	shipperConf.BaseUrl = viper.GetString("SHIPPER_BASE_URL")
 	shipperConf.ApiKey = viper.GetString("SHIPPER_API_KEY")
 
+	ngrokConf := new(ngrok)
+	ngrokConf.BaseUrl = viper.GetString("NGROK_BASE_URL")
+
 	return &Config{
 		CurrentApp: currentAppConf,
 		Kafka:      kafkaConf,
 		Midtrans:   midtransConf,
 		Shipper:    shipperConf,
+		Ngrok:      ngrokConf,
 	}
 }
